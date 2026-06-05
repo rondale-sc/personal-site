@@ -10,14 +10,22 @@ const sorted = projects.sort((a, b) => b.data.date.valueOf() - a.data.date.value
   {sorted.length === 0 ? (
     <p><em>Projects coming soon.</em></p>
   ) : (
-    <ul>
+    <ul class="project-list">
       {sorted.map(project => (
-        <li>
-          <a href={`/projects/${project.id.replace(/\.mdx?$/, '')}`}>
-            <strong>{project.data.title}</strong>
+        <li class="project-card">
+          <a href={`/projects/${project.id.replace(/\.mdx?$/, '')}`} class="project-card-link">
+            {project.data.thumbnail && (
+              <img src={project.data.thumbnail} alt={project.data.title} class="project-thumb" />
+            )}
+            <div class="project-info">
+              <span class="project-title">{project.data.title}</span>
+              <p class="project-summary">{project.data.summary}</p>
+              <span class="project-meta">
+                {project.data.status} · {project.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+                {project.data.tags.length > 0 && ` · ${project.data.tags.slice(0, 3).join(', ')}`}
+              </span>
+            </div>
           </a>
-          <span> — {project.data.summary}</span>
-          <span> [{project.data.status}]</span>
         </li>
       ))}
     </ul>

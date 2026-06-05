@@ -4,6 +4,7 @@ date: 2025-07-27
 status: completed
 tags: [hardware, "6502", breadboard, retro-computing, ben-eater, wozmon]
 summary: Built a working 6502 breadboard computer from scratch following Ben Eater's tutorial, culminating in running Wozmon and loading BASIC.
+thumbnail: /projects/6502/2025-06-29-rom-installed-1.jpg
 ---
 
 Built a fully working 6502 breadboard computer following [Ben Eater's tutorial series](https://eater.net/6502). The build spans about five weeks — from bare chip with an Arduino monitor to a serial-connected machine running Steve Wozniak's machine-language monitor (Wozmon) and capable of loading BASIC.
