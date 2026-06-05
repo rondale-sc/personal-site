@@ -9,6 +9,9 @@ body {
   line-height: 1.7;
   color: #1a1a1a;
   background: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -21,7 +24,9 @@ a:hover {
 }
 
 main {
+  flex: 1;
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem 1.5rem;
 }
