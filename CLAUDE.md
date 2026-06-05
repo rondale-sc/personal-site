@@ -4,7 +4,7 @@
 
 Static personal website built with Astro, hosted on Cloudflare Pages.
 
-**Repo:** `github.com/rondale-sc/personal-site`
+**Repo:** `github.com/rondale-sc/personal-site` — local at `~/Code/rondale-sc/personal-site`
 **Live URL:** TBD — set up Cloudflare Pages per `docs/deployment.md` (custom domain TBD)
 
 ## Local Development
