@@ -1,14 +1,65 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Home" description="Personal website — amateur radio, reading, and projects.">
-  <h1>Hi, I'm [Your Name]</h1>
+<Base title="Jonathan Jackson" description="Staff Software Engineer at LinkedIn. Amateur radio operator, hardware builder, avid reader.">
+  <div class="hero-photo">
+    <img src="/jonathan.jpg" alt="Jonathan Jackson" />
+  </div>
+  <h1>Jonathan Jackson</h1>
   <p>
-    Software developer, amateur radio operator, and occasional builder of things.
-    This site is a work in progress — come back soon.
+    Staff Software Engineer at LinkedIn with nearly two decades building web applications.
+    I've worked across Rails and JavaScript-heavy stacks—from consultancies like Hashrocket and 201 Created
+    to fintech at Addepar—and co-hosted <a href="https://emberweekend.com">Ember Weekend</a>, a weekly
+    podcast on the Ember.js ecosystem, from 2015 to 2020.
   </p>
-  <ul>
+  <p>
+    Outside of work: licensed amateur radio operator, builder of retro hardware
+    (most recently a <a href="/projects/6502-breadboard-computer">working 6502 breadboard computer</a>),
+    and an avid reader split between philosophy and brain candy.
+  </p>
+  <ul class="home-links">
+    <li><a href="/projects">Projects</a></li>
+    <li><a href="/interests">Interests</a></li>
+    <li><a href="/resume">Resume</a></li>
     <li><a href="https://github.com/rondale-sc">GitHub</a></li>
-    <li><a href="mailto:boiling-foot2u@icloud.com">Email</a></li>
+    <li><a href="https://www.linkedin.com/in/jonathan-jackson-a85999133/">LinkedIn</a></li>
   </ul>
 </Base>
+
+<style>
+  .hero-photo {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+  }
+
+  p {
+    margin: 0 0 1rem;
+    max-width: 640px;
+  }
+
+  .home-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0;
+    font-size: 0.95rem;
+  }
+</style>
