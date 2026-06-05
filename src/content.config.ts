@@ -37,4 +37,15 @@ const reading = defineCollection({
   }),
 });
 
-export const collections = { projects, radio, reading };
+const dogs = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/interests/dogs' }),
+  schema: z.object({
+    name: z.string(),
+    status: z.enum(['current', 'past']),
+    photos: z.array(z.string()),
+    born: z.string().optional(),
+    breed: z.string().optional(),
+  }),
+});
+
+export const collections = { projects, radio, reading, dogs };
