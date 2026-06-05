@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const areas = [
+  {
+    name: 'Amateur Radio',
+    href: '/interests/radio',
+    description: 'HF and VHF operations, station notes, and on-air experiments.',
+  },
+  {
+    name: 'Reading',
+    href: '/interests/reading',
+    description: 'Books — philosophical texts and brain candy in an even split.',
+  },
+];
+---
+<Base title="Interests" description="Things I'm into.">
+  <h1>Interests</h1>
+  <ul>
+    {areas.map(area => (
+      <li>
+        <a href={area.href}><strong>{area.name}</strong></a>
+        <p>{area.description}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

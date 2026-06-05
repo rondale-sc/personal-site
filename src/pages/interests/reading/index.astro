@@ -1,0 +1,47 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const books = await getCollection('reading');
+const byStatus = {
+  reading: books.filter(b => b.data.status === 'reading'),
+  finished: books.filter(b => b.data.status === 'finished').sort((a, b) => b.data.year - a.data.year),
+  'want-to-read': books.filter(b => b.data.status === 'want-to-read'),
+};
+---
+<Base title="Reading" description="Books I'm reading and have read.">
+  <h1>Reading</h1>
+
+  <h2>Currently Reading</h2>
+  {byStatus.reading.length === 0 ? (
+    <p><em>Nothing tracked yet.</em></p>
+  ) : (
+    <ul>
+      {byStatus.reading.map(book => (
+        <li><em>{book.data.title}</em> — {book.data.author}</li>
+      ))}
+    </ul>
+  )}
+
+  <h2>Finished</h2>
+  {byStatus.finished.length === 0 ? (
+    <p><em>Nothing tracked yet.</em></p>
+  ) : (
+    <ul>
+      {byStatus.finished.map(book => (
+        <li><em>{book.data.title}</em> — {book.data.author} ({book.data.year})</li>
+      ))}
+    </ul>
+  )}
+
+  <h2>Want to Read</h2>
+  {byStatus['want-to-read'].length === 0 ? (
+    <p><em>Nothing tracked yet.</em></p>
+  ) : (
+    <ul>
+      {byStatus['want-to-read'].map(book => (
+        <li><em>{book.data.title}</em> — {book.data.author}</li>
+      ))}
+    </ul>
+  )}
+</Base>
