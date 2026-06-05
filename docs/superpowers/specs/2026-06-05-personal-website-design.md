@@ -91,7 +91,7 @@ Writing lives where it belongs: a book reaction is the markdown body of a readin
 
 ## Repository
 
-The personal website lives at `~/Code/rondale-sc`, which corresponds to the GitHub repo `rondale-sc/rondale-sc` (GitHub username as repo name). This is a standalone git repo. The Cloudflare Pages project connects to this repo. The eventual custom domain is added once a TLD is acquired; until then the site is available at the Cloudflare Pages `.pages.dev` subdomain.
+The personal website lives at `~/Code/rondale-sc`, which corresponds to the GitHub repo `rondale-sc/personal-site`. This is a standalone git repo. The Cloudflare Pages project connects to this repo. The eventual custom domain is added once a TLD is acquired; until then the site is available at `personal-site.pages.dev` (the Cloudflare Pages default subdomain).
 
 ## Repo Structure
 

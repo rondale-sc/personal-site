@@ -10,7 +10,7 @@ The site is hosted on Cloudflare Pages with automatic deployments from the `main
 | CI/CD | Cloudflare Pages (GitHub integration) |
 | Validation | GitHub Actions |
 | DNS | Cloudflare DNS |
-| Domain | TBD (currently `rondale-sc.pages.dev`) |
+| Domain | TBD (custom domain pending) |
 
 ## Initial Cloudflare Pages Setup
 
@@ -18,14 +18,14 @@ These steps are done once to connect the repo to Cloudflare Pages.
 
 1. Log in to [Cloudflare Dashboard](https://dash.cloudflare.com)
 2. Go to **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
-3. Authorize GitHub and select the `rondale-sc/rondale-sc` repository
+3. Authorize GitHub and select the `rondale-sc/personal-site` repository
 4. Configure the build:
    - **Build command:** `npm run build`
    - **Build output directory:** `dist`
    - **Environment variable:** `NODE_VERSION` = `22`
 5. Click **Save and Deploy**
 
-After setup: every push to `main` triggers a production deploy. Every PR branch gets a preview URL at `<branch>.rondale-sc.pages.dev`.
+After setup: every push to `main` triggers a production deploy. Every PR branch gets a preview URL at `<branch>.personal-site.pages.dev`.
 
 ## Environment Variables
 
@@ -49,8 +49,8 @@ For apex domain (`yourname.com`, not `www`): Cloudflare supports CNAME flattenin
 
 ## Branch Deployments
 
-- `main` → production (`rondale-sc.pages.dev` or custom domain)
-- Any other branch → preview (`<branch-name>.rondale-sc.pages.dev`)
+- `main` → production (`personal-site.pages.dev` or custom domain)
+- Any other branch → preview (`<branch-name>.personal-site.pages.dev`)
 
 Preview URLs are posted automatically as PR comments by Cloudflare.
 
