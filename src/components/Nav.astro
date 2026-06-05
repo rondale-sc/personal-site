@@ -1,0 +1,30 @@
+---
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/interests', label: 'Interests' },
+  { href: '/resume', label: 'Resume' },
+];
+const currentPath = Astro.url.pathname;
+---
+<nav>
+  {links.map(link => (
+    <a href={link.href} aria-current={currentPath === link.href ? 'page' : undefined}>
+      {link.label}
+    </a>
+  ))}
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+  a {
+    text-decoration: none;
+    font-weight: 500;
+  }
+  a[aria-current="page"] {
+    text-decoration: underline;
+  }
+</style>
