@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const sorted = projects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base title="Projects" description="Things I've built.">
+  <h1>Projects</h1>
+  {sorted.length === 0 ? (
+    <p><em>Projects coming soon.</em></p>
+  ) : (
+    <ul>
+      {sorted.map(project => (
+        <li>
+          <a href={`/projects/${project.id.replace(/\.mdx?$/, '')}`}>
+            <strong>{project.data.title}</strong>
+          </a>
+          <span> — {project.data.summary}</span>
+          <span> [{project.data.status}]</span>
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

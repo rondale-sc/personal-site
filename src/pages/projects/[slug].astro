@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.id.replace(/\.mdx?$/, '') },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+<Base title={project.data.title} description={project.data.summary}>
+  <h1>{project.data.title}</h1>
+  <p>
+    <time datetime={project.data.date.toISOString()}>
+      {project.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+    </time>
+    {' '}·{' '}
+    <span>{project.data.status}</span>
+    {project.data.tags.length > 0 && (
+      <span> · {project.data.tags.join(', ')}</span>
+    )}
+  </p>
+  <Content />
+</Base>
