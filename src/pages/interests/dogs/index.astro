@@ -1,0 +1,130 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+const all = await getCollection('dogs');
+const current = all.filter(d => d.data.status === 'current');
+const past = all.filter(d => d.data.status === 'past');
+
+async function withContent(entries: typeof all) {
+  return Promise.all(entries.map(async d => ({ ...d, rendered: await render(d) })));
+}
+
+const currentDogs = await withContent(current);
+const pastDogs = await withContent(past);
+---
+<Base title="Furry Friends" description="Dogs past and present.">
+  <h1>Furry Friends</h1>
+  <p>An avid dog park attendee. Here are the four-legged members of the household, past and present.</p>
+
+  {currentDogs.map(dog => (
+    <section class="dog-section">
+      <h2>{dog.data.name} <span class="dog-status current">current</span></h2>
+      {dog.data.born && <p class="dog-meta">Born ~{dog.data.born}{dog.data.breed ? ` · ${dog.data.breed}` : ''}</p>}
+      <div class="dog-photos">
+        {dog.data.photos.map((src, i) => (
+          <img src={src} alt={`${dog.data.name} photo ${i + 1}`} class="dog-photo" />
+        ))}
+      </div>
+      <div class="prose dog-body">
+        <dog.rendered.Content />
+      </div>
+    </section>
+  ))}
+
+  {pastDogs.length > 0 && (
+    <>
+      <h2 class="past-heading">Past Dogs</h2>
+      {pastDogs.map(dog => (
+        <section class="dog-section past">
+          <h3>{dog.data.name}</h3>
+          {dog.data.born && <p class="dog-meta">Born ~{dog.data.born}{dog.data.breed ? ` · ${dog.data.breed}` : ''}</p>}
+          <div class="dog-photos">
+            {dog.data.photos.map((src, i) => (
+              <img src={src} alt={`${dog.data.name} photo ${i + 1}`} class="dog-photo" />
+            ))}
+          </div>
+          <div class="prose dog-body">
+            <dog.rendered.Content />
+          </div>
+        </section>
+      ))}
+    </>
+  )}
+</Base>
+
+<style>
+  .dog-section {
+    margin: 2rem 0 3rem;
+  }
+
+  .dog-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .dog-section h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+  }
+
+  .dog-status {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15em 0.5em;
+    border-radius: 999px;
+    vertical-align: middle;
+  }
+
+  .dog-status.current {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .dog-meta {
+    font-size: 0.85rem;
+    color: #888;
+    margin: 0 0 1rem;
+  }
+
+  .dog-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .dog-photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .dog-body {
+    margin-top: 0.75rem;
+  }
+
+  .past-heading {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 3rem 0 0.5rem;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 1.5rem;
+  }
+
+  .dog-section.past .dog-photo {
+    filter: grayscale(20%);
+  }
+</style>
