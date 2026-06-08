@@ -18,16 +18,31 @@ const { title, description = 'Personal website' } = Astro.props;
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
+    <!-- Apply stored theme before first paint to prevent flash -->
+    <script is:inline>
+      (function() {
+        const stored = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute(
+          'data-theme',
+          stored || (prefersDark ? 'dark' : 'light')
+        );
+      })();
+    </script>
   </head>
   <body>
     <header>
-      <Nav />
+      <div class="header-inner">
+        <Nav />
+      </div>
     </header>
     <main>
       <slot />
     </main>
     <footer>
-      <Footer />
+      <div class="footer-inner">
+        <Footer />
+      </div>
     </footer>
   </body>
 </html>
