@@ -85,22 +85,14 @@ mode: SSB
 Notes about the contact.
 ```
 
-### Add a book
+### Reading (Goodreads-synced)
 
-Create `src/content/interests/reading/<slug>.md`:
+The reading page at `/interests/reading` fetches live data from Goodreads at build time via `src/lib/goodreads.ts`. No manual entries needed — add books to your Goodreads shelves and they appear on the next deploy.
 
-```markdown
----
-title: Meditations
-author: Marcus Aurelius
-status: finished
-genre: philosophy
-year: 2026
-rating: 5
----
+- **Currently reading** shelf → "Currently reading" section
+- **Read** shelf → "Read" section (sorted by date added, newest first)
 
-Optional notes or reaction here.
-```
+Goodreads user ID: `200941836`
 
 ## Adding a New Interest Area
 
