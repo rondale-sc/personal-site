@@ -12,6 +12,12 @@ Ember Weekend was a show I ran from 2015 to 2019 with Chase McCarthy and Robert 
 
 All episodes are archived on our [YouTube channel](https://www.youtube.com/@emberweekend).
 
+From the channel description:
+
+> Archived Ember Weekend Podcast - Which ran from March 24th 2015 until November 19th 2019.
+>
+> Welcome to Ember Weekend where Chase McCarthy and Jonathan Jackson babble on about their weekend Ember shenanigans.
+
 <div class="video-embed">
   <iframe
     src="https://www.youtube.com/embed/videoseries?list=PL_mCzTrFK0zZEcQxWtm7jCgmUqGEF72cy"
