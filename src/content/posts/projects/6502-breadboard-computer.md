@@ -1,5 +1,6 @@
 ---
 title: 6502 Breadboard Computer
+type: project
 date: 2025-07-27
 status: completed
 tags: [hardware, "6502", breadboard, retro-computing, ben-eater, wozmon]

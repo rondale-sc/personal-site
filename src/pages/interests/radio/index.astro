@@ -1,27 +1,76 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { getPostHref } from '../../../lib/posts';
 
-const entries = await getCollection('radio');
-const sorted = entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const all = await getCollection('posts');
+const entries = all
+  .filter(p => p.data.type === 'radio' && !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <Base title="Amateur Radio" description="Amateur radio logs and notes.">
   <h1>Amateur Radio</h1>
   <p>Licensed amateur radio operator.</p>
-  {sorted.length === 0 ? (
+  {entries.length === 0 ? (
     <p><em>Log entries coming soon.</em></p>
   ) : (
-    <ul>
-      {sorted.map(entry => (
-        <li>
-          <strong>{entry.data.title}</strong>
-          <time datetime={entry.data.date.toISOString()}>
-            {' '}{entry.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </time>
-          {entry.data.band && <span> · {entry.data.band}</span>}
-          {entry.data.mode && <span> · {entry.data.mode}</span>}
+    <ul class="log-list">
+      {entries.map(entry => (
+        <li class="log-entry">
+          <a href={getPostHref(entry)} class="log-link">
+            <span class="log-title">{entry.data.title}</span>
+            <span class="log-meta">
+              <time datetime={entry.data.date.toISOString()}>
+                {entry.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </time>
+              {entry.data.band && <span> · {entry.data.band}</span>}
+              {entry.data.mode && <span> · {entry.data.mode}</span>}
+              {entry.data.callsign && <span> · {entry.data.callsign}</span>}
+            </span>
+          </a>
         </li>
       ))}
     </ul>
   )}
 </Base>
+
+<style>
+  h1 { margin-bottom: 0.25rem; }
+  p { margin: 0 0 1.5rem; color: var(--text-muted); font-size: 0.9375rem; }
+
+  .log-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .log-entry {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .log-entry:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .log-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.75rem 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .log-link:hover .log-title { color: var(--accent); }
+
+  .log-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--text);
+  }
+
+  .log-meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+</style>

@@ -3,19 +3,24 @@ import Base from '../../layouts/Base.astro';
 import { fetchShelf } from '../../lib/goodreads';
 import { getCollection } from 'astro:content';
 
-const [recentBook, dogs] = await Promise.all([
+const [recentBook, dogs, radioPosts] = await Promise.all([
   fetchShelf('currently-reading').then(b => b[0] ?? null),
   getCollection('dogs'),
+  getCollection('posts').then(all =>
+    all.filter(p => p.data.type === 'radio' && !p.data.draft)
+       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  ),
 ]);
 
 const penny = dogs.find(d => d.data.name === 'Penny');
 const pennyPhoto = penny?.data.photos?.[0] ?? null;
+const radioThumb = radioPosts[0]?.data.thumbnail ?? null;
 
 const areas = [
   {
     name: 'Reading',
     href: '/interests/reading',
-    description: 'Books from the shelf — philosophy, science, and brain candy.',
+    description: 'Books from the shelf — philosophy, science, and whatever catches my eye.',
     thumbnail: recentBook?.cover ?? null,
     thumbnailAlt: recentBook ? `${recentBook.title} cover` : 'Reading',
   },
@@ -30,7 +35,7 @@ const areas = [
     name: 'Amateur Radio',
     href: '/interests/radio',
     description: 'HF and VHF operations, station notes, and on-air experiments.',
-    thumbnail: null,
+    thumbnail: radioThumb,
     thumbnailAlt: 'Amateur Radio',
   },
 ];

@@ -1,12 +1,12 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Base from '../../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-import { getPostSlug } from '../../lib/posts';
+import { getPostSlug } from '../../../lib/posts';
 
 export async function getStaticPaths() {
   const all = await getCollection('posts');
   return all
-    .filter(p => p.data.type === 'project' && !p.data.draft)
+    .filter(p => p.data.type === 'radio' && !p.data.draft)
     .map(post => ({
       params: { slug: getPostSlug(post) },
       props: { post },
@@ -16,14 +16,16 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
-<Base title={post.data.title} description={post.data.summary}>
+<Base title={post.data.title}>
   <div class="prose">
     <h1>{post.data.title}</h1>
     <p class="page-meta">
       <time datetime={post.data.date.toISOString()}>
         {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
       </time>
-      {post.data.status && <span> · {post.data.status}</span>}
+      {post.data.band && <span> · {post.data.band}</span>}
+      {post.data.mode && <span> · {post.data.mode}</span>}
+      {post.data.callsign && <span> · {post.data.callsign}</span>}
       {post.data.tags.length > 0 && <span> · {post.data.tags.join(', ')}</span>}
     </p>
     <Content />
