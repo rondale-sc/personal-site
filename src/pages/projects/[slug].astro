@@ -20,6 +20,9 @@ const posts = allPosts
 ---
 <Base title={project.data.title} description={project.data.summary}>
   <div class="project-header">
+    {project.data.thumbnail && (
+      <img src={project.data.thumbnail} alt={project.data.title} class="project-thumb" />
+    )}
     <h1>{project.data.title}</h1>
     {project.data.summary && <p class="project-summary">{project.data.summary}</p>}
     <p class="project-meta">
@@ -51,6 +54,13 @@ const posts = allPosts
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border);
+  }
+
+  .project-thumb {
+    width: 120px;
+    height: auto;
+    display: block;
+    margin-bottom: 1rem;
   }
 
   .project-header h1 { margin: 0 0 0.5rem; }
