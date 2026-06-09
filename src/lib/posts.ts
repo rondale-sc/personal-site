@@ -10,3 +10,8 @@ export function getPostSlug(post: Post): string {
 export function getPostHref(post: Post): string {
   return `/posts/${getPostSlug(post)}`;
 }
+
+/** Label shown in badges and feeds — interest slug or "project" */
+export function getPostSection(post: Post): string {
+  return post.data.interest ?? 'project';
+}

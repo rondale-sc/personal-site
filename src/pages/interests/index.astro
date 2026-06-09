@@ -3,20 +3,35 @@ import Base from '../../layouts/Base.astro';
 import { fetchShelf } from '../../lib/goodreads';
 import { getCollection } from 'astro:content';
 
-const [recentBook, dogs, radioPosts] = await Promise.all([
+const [recentBook, dogs, interests, allPosts] = await Promise.all([
   fetchShelf('currently-reading').then(b => b[0] ?? null),
   getCollection('dogs'),
-  getCollection('posts').then(all =>
-    all.filter(p => p.data.type === 'radio' && !p.data.draft)
-       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  ),
+  getCollection('interests'),
+  getCollection('posts'),
 ]);
 
 const penny = dogs.find(d => d.data.name === 'Penny');
 const pennyPhoto = penny?.data.photos?.[0] ?? null;
-const radioThumb = radioPosts[0]?.data.thumbnail ?? null;
 
-const areas = [
+// For each dynamic interest, find the most recent post thumbnail
+function interestThumb(slug: string) {
+  return allPosts
+    .filter(p => p.data.interest === slug && !p.data.draft && p.data.thumbnail)
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())[0]
+    ?.data.thumbnail ?? null;
+}
+
+const dynamicAreas = interests
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .map(i => ({
+    name: i.data.title,
+    href: `/interests/${i.id}`,
+    description: i.data.description ?? '',
+    thumbnail: i.data.thumbnail ?? interestThumb(i.id),
+    thumbnailAlt: i.data.title,
+  }));
+
+const specialAreas = [
   {
     name: 'Reading',
     href: '/interests/reading',
@@ -31,14 +46,9 @@ const areas = [
     thumbnail: pennyPhoto,
     thumbnailAlt: 'Penny',
   },
-  {
-    name: 'Amateur Radio',
-    href: '/interests/radio',
-    description: 'HF and VHF operations, station notes, and on-air experiments.',
-    thumbnail: radioThumb,
-    thumbnailAlt: 'Amateur Radio',
-  },
 ];
+
+const areas = [...dynamicAreas, ...specialAreas];
 ---
 <Base title="Interests" description="Things I'm into.">
   <h1>Interests</h1>

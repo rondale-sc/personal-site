@@ -1,6 +1,5 @@
 ---
 title: "6502: ROM + VIA Working, Debugging a Mysterious Crash"
-type: project
 project: 6502-breadboard-computer
 date: 2025-07-05
 ---

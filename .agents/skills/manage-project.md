@@ -1,40 +1,37 @@
 # Skill: Add a Post
 
-Triggered when the user says **"Create a project"**, **"Add a post"**, **"Update a project"**, **"Add to [interest or project name]"**, or any variation indicating they want to create new content.
+Triggered when the user says **"Add a post"**, **"Create a project"**, **"Update a project"**, **"Add to [interest or project name]"**, or any variation indicating they want to create content.
 
-All content is a **post** (`src/content/posts/*.md`). The only difference is where it appears:
-- Posts with `type: project` and `project: <slug>` → aggregated on the project page
-- Posts with `type: radio`, `type: writing`, etc. → aggregated on the matching interest/section page
-- All posts always appear on `/posts`
+All content is a **post** (`src/content/posts/*.md`). Every post goes to `/posts` automatically. The `project` or `interest` field routes it to a section page as well.
 
 ---
 
 ## Step 1 — Determine the destination
 
-If the user named a destination (e.g. "add to the 6502 project", "add a radio post"), classify it:
+If the user named a destination, classify it:
 
-| User says | Destination type | Action |
-|-----------|-----------------|--------|
-| Names a project (matches a slug in `src/content/projects/`) | project | Set `type: project`, `project: <slug>` |
-| Says "radio" / "amateur radio" | interest | Set `type: radio` |
-| Says "writing" | interest | Set `type: writing` |
-| No destination given | — | Ask: "Is this for a project, or an interest (radio, writing)?" |
+| User says | Check | Action |
+|-----------|-------|--------|
+| Names something matching `src/content/projects/` | project | Set `project: <slug>` |
+| Names something matching `src/content/interests/` | interest | Set `interest: <slug>` |
+| Says "radio", "writing", or any known interest | interest | Set `interest: <slug>` |
+| No destination given | — | Ask: "Is this for a project or an interest? Which one?" |
 
-If it's a **project** and the slug doesn't exist in `src/content/projects/`, ask:
-> "That project doesn't exist yet. Want to create it first?"
-If yes, follow **Create a project container** below before adding the post.
+**If the destination doesn't exist yet:**
+- For a project: ask to create it first (follow **Create a project container** below)
+- For an interest: ask to create it first (follow **Create an interest container** below)
 
 ---
 
 ## Step 2 — Gather post information
 
-Ask for any missing fields. If the user's message already contains the content, extract it rather than asking again.
+Ask for anything not already provided:
 
 | Field | Ask | Notes |
 |-------|-----|-------|
 | `title` | "Post title?" | Required |
-| `date` | "Date for this?" | Default: today (`YYYY-MM-DD`) |
-| content | "What's the content?" | Required; take from user message if provided |
+| `date` | "Date?" | Default: today (`YYYY-MM-DD`) |
+| content | "What's the content?" | Required; extract from user message if already there |
 | `tags` | "Any tags? (or skip)" | Optional |
 
 ---
@@ -42,13 +39,14 @@ Ask for any missing fields. If the user's message already contains the content, 
 ## Step 3 — Create the post file
 
 Derive a short kebab-case slug from the title.
-Filename: `<project-slug>-<YYYY-MM-DD>-<post-slug>.md` for project posts, `<YYYY-MM-DD>-<post-slug>.md` for others.
+- Project posts: `<project-slug>-<YYYY-MM-DD>-<post-slug>.md`
+- Interest posts: `<YYYY-MM-DD>-<post-slug>.md`
 
 ```markdown
 ---
 title: "<title>"
-type: <project|radio|writing>
-project: <slug>        ← only for project posts
+project: <slug>        ← for project posts (omit interest line)
+interest: <slug>       ← for interest posts (omit project line)
 date: <YYYY-MM-DD>
 tags: [<tags>]         ← omit if none
 ---
@@ -60,17 +58,9 @@ tags: [<tags>]         ← omit if none
 
 ## Create a project container
 
-Only needed when creating a brand-new project (not for adding posts to an existing one).
+Only needed for a brand-new project.
 
-Gather:
-
-| Field | Ask | Default |
-|-------|-----|---------|
-| `title` | "Full display title?" | Required |
-| `summary` | "One-line description?" | Required |
-| `status` | "Status?" | `in-progress` |
-| `tags` | "Tags? (or skip)" | `[]` |
-| `thumbnail` | "Thumbnail image path? (or skip)" | omit if none |
+Gather: `title` (required), `summary` (required), `status` (default: `in-progress`), `tags`, `thumbnail` (optional).
 
 Derive slug from title: lowercase, spaces → hyphens, strip punctuation.
 
@@ -87,7 +77,26 @@ thumbnail: <path>      ← omit if none
 ---
 ```
 
-Then proceed to add the first post if the user has content ready.
+---
+
+## Create an interest container
+
+Only needed for a brand-new interest area. No code changes required — just a file.
+
+Gather: `title` (required), `description` (optional).
+
+Derive slug from title.
+
+Create `src/content/interests/<slug>.md`:
+
+```markdown
+---
+title: <title>
+description: <description>
+---
+```
+
+The page at `/interests/<slug>` is automatically generated.
 
 ---
 

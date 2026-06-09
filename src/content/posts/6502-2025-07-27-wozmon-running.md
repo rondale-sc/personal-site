@@ -1,6 +1,5 @@
 ---
 title: "6502: Wozmon Running"
-type: project
 project: 6502-breadboard-computer
 date: 2025-07-27
 ---

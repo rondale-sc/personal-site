@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { getPostHref } from '../lib/posts';
+import { getPostHref, getPostSection } from '../lib/posts';
 
 const experience = [
   { period: '2022 – present', role: 'Staff Software Engineer', company: 'LinkedIn' },
@@ -59,7 +59,7 @@ const recent = all
         {recent.map(post => (
           <li class="recent-entry">
             <a href={getPostHref(post)} class="recent-link">
-              <span class={`type-badge type-${post.data.type}`}>{post.data.type}</span>
+              <span class="type-badge">{getPostSection(post)}</span>
               <span class="recent-title">{post.data.title}</span>
               <time class="recent-date" datetime={post.data.date.toISOString()}>
                 {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}

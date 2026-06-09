@@ -1,15 +1,27 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { getPostHref, getPostSection } from '../../lib/posts';
+import { getPostHref } from '../../lib/posts';
 
-const all = await getCollection('posts');
-const posts = all
-  .filter(p => !p.data.draft)
+export async function getStaticPaths() {
+  const interests = await getCollection('interests');
+  return interests.map(interest => ({
+    params: { slug: interest.id },
+    props: { interest },
+  }));
+}
+
+const { interest } = Astro.props;
+
+const allPosts = await getCollection('posts');
+const posts = allPosts
+  .filter(p => p.data.interest === interest.id && !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title="Posts" description="All posts across projects, radio, and writing.">
-  <h1>Posts</h1>
+<Base title={interest.data.title} description={interest.data.description}>
+  <h1>{interest.data.title}</h1>
+  {interest.data.description && <p class="section-desc">{interest.data.description}</p>}
+
   {posts.length === 0 ? (
     <p><em>Nothing here yet.</em></p>
   ) : (
@@ -17,7 +29,6 @@ const posts = all
       {posts.map(post => (
         <li class="post-row">
           <a href={getPostHref(post)} class="post-link">
-            <span class="type-badge">{getPostSection(post)}</span>
             <span class="post-title">{post.data.title}</span>
             <time class="post-date" datetime={post.data.date.toISOString()}>
               {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
@@ -30,7 +41,13 @@ const posts = all
 </Base>
 
 <style>
-  h1 { margin-bottom: 1.5rem; }
+  h1 { margin-bottom: 0.25rem; }
+
+  .section-desc {
+    margin: 0 0 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
 
   .post-list {
     list-style: none;
@@ -38,40 +55,22 @@ const posts = all
     margin: 0;
   }
 
-  .post-row {
-    border-bottom: 1px solid var(--border);
-  }
-
-  .post-row:first-child {
-    border-top: 1px solid var(--border);
-  }
+  .post-row { border-bottom: 1px solid var(--border); }
+  .post-row:first-child { border-top: 1px solid var(--border); }
 
   .post-link {
     display: flex;
     align-items: baseline;
-    gap: 0.6rem;
-    padding: 0.625rem 0;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0;
     text-decoration: none;
     color: inherit;
   }
 
   .post-link:hover .post-title { color: var(--accent); }
 
-  .type-badge {
-    font-size: 0.65rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.15em 0.45em;
-    border-radius: 3px;
-    flex-shrink: 0;
-    background: color-mix(in srgb, var(--accent) 12%, var(--surface));
-    color: var(--accent);
-    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  }
-
   .post-title {
-    flex: 1;
     font-size: 0.9375rem;
     font-weight: 500;
     color: var(--text);
@@ -83,18 +82,5 @@ const posts = all
     white-space: nowrap;
     font-variant-numeric: tabular-nums;
     flex-shrink: 0;
-  }
-
-  @media (max-width: 480px) {
-    .post-link {
-      flex-wrap: wrap;
-      row-gap: 0.15rem;
-    }
-
-    .post-date {
-      order: -1;
-      flex-basis: 100%;
-      font-size: 0.75rem;
-    }
   }
 </style>
