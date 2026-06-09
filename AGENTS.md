@@ -68,6 +68,14 @@ See `.agents/content-model.md` for the full schema reference.
 
 See `.agents/adding-content.md` for step-by-step instructions for each content type.
 
+## Skills
+
+Procedural instructions for common tasks. AI agents should follow these when the user triggers the matching phrase.
+
+| Trigger | Skill |
+|---------|-------|
+| "Create a project" / "Update a project" | `.agents/skills/manage-project.md` |
+
 ## Deployment
 
 See `docs/deployment.md` for Cloudflare Pages setup and custom domain configuration.
