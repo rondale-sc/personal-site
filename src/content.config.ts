@@ -9,21 +9,33 @@ const posts = defineCollection({
     type: z.enum(['project', 'radio', 'writing']),
     date: z.coerce.date(),
     slug: z.string().optional(),
+    project: z.string().optional(),
     summary: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
 
-    // project
-    status: z.string().optional(),
+    // project-specific
     thumbnail: z.string().optional(),
 
-    // radio
+    // radio-specific
     callsign: z.string().optional(),
     band: z.string().optional(),
     mode: z.string().optional(),
 
     // flexible extension
     meta: z.record(z.string(), z.unknown()).optional(),
+  }),
+});
+
+const projects = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    status: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    summary: z.string().optional(),
+    thumbnail: z.string().optional(),
   }),
 });
 
@@ -38,4 +50,4 @@ const dogs = defineCollection({
   }),
 });
 
-export const collections = { posts, dogs };
+export const collections = { posts, projects, dogs };

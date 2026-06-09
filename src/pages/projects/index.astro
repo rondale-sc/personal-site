@@ -1,22 +1,19 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { getPostHref } from '../../lib/posts';
 
-const all = await getCollection('posts');
-const projects = all
-  .filter(p => p.data.type === 'project' && !p.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const projects = await getCollection('projects');
+const sorted = projects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 <Base title="Projects" description="Things I've built.">
   <h1>Projects</h1>
-  {projects.length === 0 ? (
+  {sorted.length === 0 ? (
     <p><em>Projects coming soon.</em></p>
   ) : (
     <ul class="project-list">
-      {projects.map(project => (
+      {sorted.map(project => (
         <li class="project-card">
-          <a href={getPostHref(project)} class="project-card-link">
+          <a href={`/projects/${project.id}`} class="project-card-link">
             {project.data.thumbnail && (
               <img src={project.data.thumbnail} alt={project.data.title} class="project-thumb" />
             )}
