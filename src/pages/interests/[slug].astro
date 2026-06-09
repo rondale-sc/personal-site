@@ -1,40 +1,34 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-import { getPostSlug } from '../../lib/posts';
+import { getPostHref } from '../../lib/posts';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map(project => ({
-    params: { slug: project.id },
-    props: { project },
+  const interests = await getCollection('interests');
+  return interests.map(interest => ({
+    params: { slug: interest.id },
+    props: { interest },
   }));
 }
 
-const { project } = Astro.props;
+const { interest } = Astro.props;
 
 const allPosts = await getCollection('posts');
 const posts = allPosts
-  .filter(p => p.data.project === project.id && !p.data.draft)
+  .filter(p => p.data.interest === interest.id && !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title={project.data.title} description={project.data.summary}>
-  <div class="project-header">
-    <h1>{project.data.title}</h1>
-    {project.data.summary && <p class="project-summary">{project.data.summary}</p>}
-    <p class="project-meta">
-      {project.data.status && <span class="status">{project.data.status}</span>}
-      {project.data.tags.length > 0 && <span class="tags">{project.data.tags.join(', ')}</span>}
-    </p>
-  </div>
+<Base title={interest.data.title} description={interest.data.description}>
+  <h1>{interest.data.title}</h1>
+  {interest.data.description && <p class="section-desc">{interest.data.description}</p>}
 
   {posts.length === 0 ? (
-    <p><em>No updates yet.</em></p>
+    <p><em>Nothing here yet.</em></p>
   ) : (
     <ul class="post-list">
       {posts.map(post => (
         <li class="post-row">
-          <a href={`/posts/${getPostSlug(post)}`} class="post-link">
+          <a href={getPostHref(post)} class="post-link">
             <span class="post-title">{post.data.title}</span>
             <time class="post-date" datetime={post.data.date.toISOString()}>
               {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
@@ -47,29 +41,13 @@ const posts = allPosts
 </Base>
 
 <style>
-  .project-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
-  }
+  h1 { margin-bottom: 0.25rem; }
 
-  .project-header h1 { margin: 0 0 0.5rem; }
-
-  .project-summary {
-    margin: 0 0 0.75rem;
+  .section-desc {
+    margin: 0 0 1.5rem;
     color: var(--text-muted);
     font-size: 0.9375rem;
   }
-
-  .project-meta {
-    margin: 0;
-    display: flex;
-    gap: 0.75rem;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  .status { text-transform: capitalize; }
 
   .post-list {
     list-style: none;
@@ -77,13 +55,8 @@ const posts = allPosts
     margin: 0;
   }
 
-  .post-row {
-    border-bottom: 1px solid var(--border);
-  }
-
-  .post-row:first-child {
-    border-top: 1px solid var(--border);
-  }
+  .post-row { border-bottom: 1px solid var(--border); }
+  .post-row:first-child { border-top: 1px solid var(--border); }
 
   .post-link {
     display: flex;

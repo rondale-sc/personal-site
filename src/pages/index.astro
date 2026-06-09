@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { getPostHref, getPostSection } from '../lib/posts';
 
 const experience = [
   { period: '2022 – present', role: 'Staff Software Engineer', company: 'LinkedIn' },
@@ -8,6 +10,12 @@ const experience = [
   { period: '2013 – 2016',    role: 'Senior Developer',        company: 'Hashrocket' },
   { period: '2009 – 2013',    role: 'Software Engineer',       company: 'Pro Medical, Inc.' },
 ];
+
+const all = await getCollection('posts');
+const recent = all
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
 ---
 <Base title="Jonathan Jackson" description="Staff Software Engineer at LinkedIn. Amateur radio operator and builder of things.">
   <div class="home-hero">
@@ -43,6 +51,25 @@ const experience = [
       ))}
     </ol>
   </section>
+
+  {recent.length > 0 && (
+    <section class="recent">
+      <h2 class="section-label">Recent</h2>
+      <ul class="recent-list">
+        {recent.map(post => (
+          <li class="recent-entry">
+            <a href={getPostHref(post)} class="recent-link">
+              <span class="type-badge">{getPostSection(post)}</span>
+              <span class="recent-title">{post.data.title}</span>
+              <time class="recent-date" datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+              </time>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 </Base>
 
 <style>
@@ -141,6 +168,65 @@ const experience = [
     color: var(--text-muted);
   }
 
+  /* Recent posts */
+  .recent {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .recent-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .recent-entry {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .recent-entry:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .recent-link {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.625rem 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .recent-link:hover .recent-title { color: var(--accent); }
+
+  .type-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15em 0.45em;
+    border-radius: 3px;
+    flex-shrink: 0;
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .recent-title {
+    flex: 1;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .recent-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
   @media (max-width: 560px) {
     .home-hero {
       flex-direction: column-reverse;
@@ -158,6 +244,15 @@ const experience = [
 
     .timeline-period {
       width: auto;
+    }
+
+    .recent-link {
+      flex-wrap: wrap;
+    }
+
+    .recent-date {
+      order: -1;
+      flex-basis: 100%;
     }
   }
 </style>

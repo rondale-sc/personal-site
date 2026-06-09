@@ -2,38 +2,46 @@ import { defineCollection } from 'astro:content';
 import { z } from 'zod';
 import { glob } from 'astro/loaders';
 
+const posts = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    slug: z.string().optional(),
+    project: z.string().optional(),
+    interest: z.string().optional(),
+    summary: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+    thumbnail: z.string().optional(),
+    // radio-specific
+    callsign: z.string().optional(),
+    band: z.string().optional(),
+    mode: z.string().optional(),
+    // flexible extension
+    meta: z.record(z.string(), z.unknown()).optional(),
+  }),
+});
+
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
-    status: z.enum(['active', 'completed', 'archived']),
+    status: z.string().optional(),
     tags: z.array(z.string()).default([]),
-    summary: z.string(),
+    summary: z.string().optional(),
     thumbnail: z.string().optional(),
   }),
 });
 
-const radio = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/interests/radio' }),
+// Non-recursive glob — only top-level .md files, not the dogs/ subdirectory
+const interests = defineCollection({
+  loader: glob({ pattern: '*.{md,mdx}', base: './src/content/interests' }),
   schema: z.object({
     title: z.string(),
-    date: z.coerce.date(),
-    callsign: z.string().optional(),
-    band: z.string().optional(),
-    mode: z.string().optional(),
-  }),
-});
-
-const reading = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/interests/reading' }),
-  schema: z.object({
-    title: z.string(),
-    author: z.string(),
-    status: z.enum(['want-to-read', 'reading', 'finished']),
-    genre: z.string(),
-    year: z.number(),
-    rating: z.number().min(1).max(5).optional(),
+    description: z.string().optional(),
+    thumbnail: z.string().optional(),
   }),
 });
 
@@ -48,4 +56,4 @@ const dogs = defineCollection({
   }),
 });
 
-export const collections = { projects, radio, reading, dogs };
+export const collections = { posts, projects, interests, dogs };
