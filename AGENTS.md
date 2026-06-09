@@ -74,7 +74,7 @@ Procedural instructions for common tasks. AI agents should follow these when the
 
 | Trigger | Skill |
 |---------|-------|
-| "Create a project" / "Update a project" | `.agents/skills/manage-project.md` |
+| "Create a project", "Update a project", "Add a post", "Add to [project or interest]" | `.agents/skills/manage-project.md` |
 
 ## Deployment
 

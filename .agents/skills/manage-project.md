@@ -1,82 +1,56 @@
-# Skill: Manage Project
+# Skill: Add a Post
 
-Triggered when the user says **"Create a project"** or **"Update a project"** (with or without a project name).
+Triggered when the user says **"Create a project"**, **"Add a post"**, **"Update a project"**, **"Add to [interest or project name]"**, or any variation indicating they want to create new content.
 
----
-
-## Create a project
-
-### Step 1 — Gather information
-
-If the user didn't provide a project name, ask:
-> "What's the project name?"
-
-Then collect the following. Ask one question at a time if the user hasn't already provided the answers in context:
-
-| Field | Ask | Default / Notes |
-|-------|-----|-----------------|
-| `title` | "What's the full display title?" | Required |
-| `summary` | "One-line description?" | Required |
-| `status` | "Status — in-progress, completed, or shelved?" | `in-progress` |
-| `tags` | "Any tags? (comma-separated, or skip)" | `[]` |
-| `thumbnail` | "Thumbnail image path? (or skip)" | omit field if none |
-
-Derive the slug from the title: lowercase, spaces → hyphens, strip punctuation.
-Example: "My 6502 Project" → `my-6502-project`
-
-### Step 2 — Create the project container
-
-Create `src/content/projects/<slug>.md`:
-
-```markdown
----
-title: <title>
-date: <today's date as YYYY-MM-DD>
-status: <status>
-tags: [<tags>]
-summary: <summary>
-thumbnail: <thumbnail>     ← omit line if no thumbnail
----
-```
-
-### Step 3 — Offer to add a first post
-
-Ask:
-> "Want to add a first update post now?"
-
-If yes, follow the **Add a post** steps below using today's date.
+All content is a **post** (`src/content/posts/*.md`). The only difference is where it appears:
+- Posts with `type: project` and `project: <slug>` → aggregated on the project page
+- Posts with `type: radio`, `type: writing`, etc. → aggregated on the matching interest/section page
+- All posts always appear on `/posts`
 
 ---
 
-## Update a project
+## Step 1 — Determine the destination
 
-"Update a project" means adding a new post to an existing project.
+If the user named a destination (e.g. "add to the 6502 project", "add a radio post"), classify it:
 
-### Step 1 — Identify the project
+| User says | Destination type | Action |
+|-----------|-----------------|--------|
+| Names a project (matches a slug in `src/content/projects/`) | project | Set `type: project`, `project: <slug>` |
+| Says "radio" / "amateur radio" | interest | Set `type: radio` |
+| Says "writing" | interest | Set `type: writing` |
+| No destination given | — | Ask: "Is this for a project, or an interest (radio, writing)?" |
 
-If the user didn't provide a project name:
-- List the slugs found in `src/content/projects/`
-- Ask: "Which project? (slug or title)"
+If it's a **project** and the slug doesn't exist in `src/content/projects/`, ask:
+> "That project doesn't exist yet. Want to create it first?"
+If yes, follow **Create a project container** below before adding the post.
 
-### Step 2 — Gather post information
+---
 
-| Field | Ask | Default / Notes |
-|-------|-----|-----------------|
+## Step 2 — Gather post information
+
+Ask for any missing fields. If the user's message already contains the content, extract it rather than asking again.
+
+| Field | Ask | Notes |
+|-------|-----|-------|
 | `title` | "Post title?" | Required |
-| `date` | "Date for this update?" | Today's date |
-| content | "What's the content?" | Take from user's message if already provided |
+| `date` | "Date for this?" | Default: today (`YYYY-MM-DD`) |
+| content | "What's the content?" | Required; take from user message if provided |
+| `tags` | "Any tags? (or skip)" | Optional |
 
-### Step 3 — Add a post
+---
 
-Derive a short kebab-case slug from the post title.
-Create `src/content/posts/<project-slug>-<YYYY-MM-DD>-<post-slug>.md`:
+## Step 3 — Create the post file
+
+Derive a short kebab-case slug from the title.
+Filename: `<project-slug>-<YYYY-MM-DD>-<post-slug>.md` for project posts, `<YYYY-MM-DD>-<post-slug>.md` for others.
 
 ```markdown
 ---
 title: "<title>"
-type: project
-project: <project-slug>
+type: <project|radio|writing>
+project: <slug>        ← only for project posts
 date: <YYYY-MM-DD>
+tags: [<tags>]         ← omit if none
 ---
 
 <content>
@@ -84,8 +58,39 @@ date: <YYYY-MM-DD>
 
 ---
 
-## Notes
+## Create a project container
 
-- Never create a project without a `summary` — it's shown on the `/projects` index.
-- Post titles for project updates should include the project name as a prefix if the title would be ambiguous on its own: `"6502: Wozmon Running"` not just `"Wozmon Running"`.
-- After creating files, run `npm run check` to verify no type errors.
+Only needed when creating a brand-new project (not for adding posts to an existing one).
+
+Gather:
+
+| Field | Ask | Default |
+|-------|-----|---------|
+| `title` | "Full display title?" | Required |
+| `summary` | "One-line description?" | Required |
+| `status` | "Status?" | `in-progress` |
+| `tags` | "Tags? (or skip)" | `[]` |
+| `thumbnail` | "Thumbnail image path? (or skip)" | omit if none |
+
+Derive slug from title: lowercase, spaces → hyphens, strip punctuation.
+
+Create `src/content/projects/<slug>.md`:
+
+```markdown
+---
+title: <title>
+date: <today>
+status: <status>
+tags: [<tags>]
+summary: <summary>
+thumbnail: <path>      ← omit if none
+---
+```
+
+Then proceed to add the first post if the user has content ready.
+
+---
+
+## After creating files
+
+Run `npm run check` to confirm no type errors.
