@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { getPostSlug } from '../../lib/posts';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -16,10 +17,6 @@ const allPosts = await getCollection('posts');
 const posts = allPosts
   .filter(p => p.data.project === project.id && !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const rendered = await Promise.all(
-  posts.map(async p => ({ post: p, Content: (await render(p)).Content }))
-);
 ---
 <Base title={project.data.title} description={project.data.summary}>
   <div class="project-header">
@@ -31,24 +28,21 @@ const rendered = await Promise.all(
     </p>
   </div>
 
-  {rendered.length === 0 ? (
+  {posts.length === 0 ? (
     <p><em>No updates yet.</em></p>
   ) : (
-    <div class="post-feed">
-      {rendered.map(({ post, Content }) => (
-        <article class="post-entry">
-          <header class="post-header">
-            <h2 class="post-title">{post.data.title}</h2>
+    <ul class="post-list">
+      {posts.map(post => (
+        <li class="post-row">
+          <a href={`/posts/${getPostSlug(post)}`} class="post-link">
+            <span class="post-title">{post.data.title}</span>
             <time class="post-date" datetime={post.data.date.toISOString()}>
-              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
             </time>
-          </header>
-          <div class="prose">
-            <Content />
-          </div>
-        </article>
+          </a>
+        </li>
       ))}
-    </div>
+    </ul>
   )}
 </Base>
 
@@ -59,9 +53,7 @@ const rendered = await Promise.all(
     border-bottom: 1px solid var(--border);
   }
 
-  .project-header h1 {
-    margin: 0 0 0.5rem;
-  }
+  .project-header h1 { margin: 0 0 0.5rem; }
 
   .project-summary {
     margin: 0 0 0.75rem;
@@ -77,38 +69,37 @@ const rendered = await Promise.all(
     color: var(--text-muted);
   }
 
-  .status {
-    text-transform: capitalize;
+  .status { text-transform: capitalize; }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
-  .post-feed {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .post-entry {
-    padding: 1.75rem 0;
+  .post-row {
     border-bottom: 1px solid var(--border);
   }
 
-  .post-entry:first-child {
+  .post-row:first-child {
     border-top: 1px solid var(--border);
   }
 
-  .post-header {
+  .post-link {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
+    padding: 0.75rem 0;
+    text-decoration: none;
+    color: inherit;
   }
 
+  .post-link:hover .post-title { color: var(--accent); }
+
   .post-title {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 500;
     color: var(--text);
   }
 

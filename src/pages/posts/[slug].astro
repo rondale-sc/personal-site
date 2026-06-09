@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { getPostSlug } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const all = await getCollection('posts');
+  return all
+    .filter(p => !p.data.draft)
+    .map(post => ({
+      params: { slug: getPostSlug(post) },
+      props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const project = post.data.project
+  ? await getEntry('projects', post.data.project)
+  : null;
+---
+<Base title={post.data.title}>
+  <article>
+    <header class="post-header">
+      {project && (
+        <a href={`/projects/${project.id}`} class="back-link">
+          ← {project.data.title}
+        </a>
+      )}
+      <h1>{post.data.title}</h1>
+      <p class="post-meta">
+        <time datetime={post.data.date.toISOString()}>
+          {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        <span class={`type-badge type-${post.data.type}`}>{post.data.type}</span>
+        {post.data.tags.length > 0 && (
+          <span class="tags">{post.data.tags.join(', ')}</span>
+        )}
+      </p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+  }
+
+  .back-link:hover { color: var(--accent); }
+
+  h1 {
+    margin: 0 0 0.625rem;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+
+  .type-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15em 0.45em;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .tags {
+    color: var(--text-muted);
+  }
+</style>
