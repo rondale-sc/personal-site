@@ -1,16 +1,277 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Resume" description="Professional background and experience." ogImage="/og/resume.png">
-  <h1>Resume</h1>
-  <p><em>Coming soon — full resume in progress.</em></p>
+<Base title="Resume — Jonathan Jackson" description="15+ years building web infrastructure, observability platforms, and developer tooling at scale." ogImage="/og/resume.png">
+  <div class="resume">
 
-  <h2>Experience</h2>
-  <p>—</p>
+    <header class="resume-header">
+      <h1>Jonathan Jackson</h1>
+      <p class="contact">
+        <a href="mailto:boiling-foot2u@icloud.com">boiling-foot2u@icloud.com</a>
+        <span>·</span>
+        <a href="https://github.com/rondale-sc">github.com/rondale-sc</a>
+        <span>·</span>
+        <a href="https://linkedin.com/in/jonathanpjackson">linkedin.com/in/jonathanpjackson</a>
+      </p>
+    </header>
 
-  <h2>Education</h2>
-  <p>—</p>
+    <section class="resume-section">
+      <h2>Summary</h2>
+      <p>15+ years building web infrastructure, observability platforms, and developer tooling at scale. At LinkedIn, shipped the OpenTelemetry instrumentation that runs in production across LinkedIn.com today, led the migration of ~5,000 legacy dashboards off Geneva, and built evaluation infrastructure for an AI-powered alert-triage agent. Comfortable moving across the full stack — TypeScript/Ember/React client, Go Grafana plugins, backend services, Kafka consumers, and agentic tooling — and at driving multi-team migration programs from inception through production.</p>
+    </section>
 
-  <h2>Skills</h2>
-  <p>—</p>
+    <section class="resume-section">
+      <h2>Experience</h2>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title-block">
+            <span class="entry-company">LinkedIn</span>
+            <span class="entry-role">Staff Software Engineer</span>
+          </div>
+          <span class="entry-date">May 2022 – Present</span>
+        </div>
+        <ul>
+          <li>Drove LinkedIn's web client OpenTelemetry SDK from zero to 100% production traffic. Built core SDK primitives (span error recording, child span linking, context propagation through headers and proto), a runtime span-validation framework that catches schema violations before they reach production, and full instrumentation coverage for INP web vitals, page load time, and exception telemetry. This instrumentation runs in every page load on LinkedIn.com today.</li>
+          <li>Led the Grafana OTel datasource plugin integration and Geneva parity program, enabling ~5,000 legacy RRD/Geneva dashboards to migrate to the OTel metrics stack. Shipped the query capabilities that closed the parity gap — template-variable support, dimension filters, timeshift, sub-minute intervals, summarize, and missing-data behavior — and ran migration analysis, FAQs, and partner-team office hours across LinkedIn.</li>
+          <li>Built evaluation infrastructure for Observe Agent, LinkedIn's AI-powered alert-triage platform. Curated the golden dataset for P0 incidents, implemented LLM-as-judge and trajectory evaluators, and built RRD→KQL migration tooling with accompanying Claude Code skills — deterministic, independently testable CLIs that re-derive legacy metric provenance from migration PRs.</li>
+          <li>Delivered the curated Observe 2.0 alert-triage experience: firing-nodes overview and metrics tabs, correlation insights, event overlays, consolidation controls, dark mode, and LiX feature-flagging integration.</li>
+          <li>Bootstrapped the Playwright test harness, authored a Claude command to automate Cypress→Playwright migration across the codebase, and ran a sustained flaky-test reliability program — spec splitting, partition tuning, a single-spec repeat workflow, and a CI flakiness reporter. Made Playwright required to merge.</li>
+          <li>Stood up the observe-dashboards-ingraphs application and its offline analysis pipeline, including a Kafka consumer for CI events and observe-api dashboard lifecycle endpoints. Designed Dashboard Lifecycle Management and ownership-claim flows for Dashboards-as-Code via the crews asset-provider pathway.</li>
+          <li>Owned Classic Harrier's sunset roadmap and One-Harrier UI: TTMD/TTFD baselines in RCA hero charts, SLO tuning, and sustained on-call and incident response. Prior to the OTel migration, kept LinkedIn's open-source <a href="https://tracerbench.com">TracerBench</a> web benchmarking tool operational as a two-person team during LinkedIn's shift-left performance initiative.</li>
+          <li>Defined top-level UI availability and performance metrics for observe-api, tuned signalpacks to filter high-risk queries, onboarded to Freshness Guardian, and drove the Squid→Kraken security migration for observe-dashboards.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title-block">
+            <span class="entry-company">Addepar</span>
+            <span class="entry-role">Software Engineer</span>
+          </div>
+          <span class="entry-date">Feb 2019 – Apr 2022</span>
+        </div>
+        <ul>
+          <li>Built and maintained Addepar's report editor, the primary tool financial advisors use to generate client-facing portfolio reports from Addepar's financial graph — a platform tracking $1T+ in assets across thousands of advisory firms. Delivered reporting features that translated complex multi-asset portfolio data into structured, client-ready outputs.</li>
+          <li>Extended the report editor's query and rendering capabilities to handle increasingly complex financial instruments and custom firm configurations, working closely with the platform team on the underlying graph API.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <h3>Selected Earlier Experience</h3>
+        <ul class="earlier">
+          <li><strong>201 Created — Senior Developer</strong> (Jan 2017 – Feb 2019): Senior developer at one of the first consultancies to adopt Ember.js. Built client applications across fintech, media, and e-commerce, with deep focus on Ember component architecture and front-end performance.</li>
+          <li><strong>Hashrocket — Senior Developer</strong> (May 2013 – Dec 2016): Senior developer and consultant at a leading Rails consultancy. Architected applications and trained junior developers across clients in healthcare, banking, fashion, hospitality, and sports. Co-hosted Ember Weekend podcast; delivered Ember.js training to 40+ developers at Modern Web.</li>
+          <li><strong>Pro Medical, Inc. — Software Engineer</strong> (2009 – 2013): First engineering role after graduation. Built internal web tooling and managed IT for a HIPAA-compliant medical billing company.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>Education</h2>
+      <div class="entry">
+        <div class="entry-header">
+          <div class="entry-title-block">
+            <span class="entry-company">University of Florida</span>
+            <span class="entry-role">BA, Political Science</span>
+          </div>
+          <span class="entry-date">2008</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>Skills</h2>
+      <div class="skills">
+        <div class="skill-group">
+          <span class="skill-label">Languages</span>
+          <span>TypeScript, JavaScript, Go, Ruby</span>
+        </div>
+        <div class="skill-group">
+          <span class="skill-label">Frameworks</span>
+          <span>Ember.js, React, Rails, Elixir/Phoenix</span>
+        </div>
+        <div class="skill-group">
+          <span class="skill-label">Infrastructure</span>
+          <span>OpenTelemetry, Grafana, Kafka, Playwright, Cypress</span>
+        </div>
+        <div class="skill-group">
+          <span class="skill-label">Domains</span>
+          <span>Observability, Web Performance, AI/LLM Evaluation, Developer Tooling</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>Speaking &amp; Community</h2>
+      <ul class="speaking">
+        <li><strong>RailsConf 2015</strong> — <a href="https://www.youtube.com/watch?v=NnquHUlh0Pk">"Rails and EmberCLI: an integration love story"</a></li>
+        <li><strong>EmberFest EU 2018</strong> — speaker</li>
+        <li><strong>Ember NYC</strong> — speaker</li>
+        <li><strong>EmberJAX</strong> — founder and multi-year organizer of the Jacksonville, FL Ember.js meetup</li>
+        <li><strong>Ember Weekend</strong> — co-host of a long-running podcast covering Ember.js news, interviews, and community</li>
+      </ul>
+    </section>
+
+  </div>
 </Base>
+
+<style>
+  .resume {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .resume-header {
+    margin-bottom: 2.5rem;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 1.25rem;
+  }
+
+  .resume-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem;
+    color: var(--text);
+  }
+
+  .contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .contact span { color: var(--border); }
+  .contact a { color: var(--text-muted); text-decoration: none; }
+  .contact a:hover { color: var(--accent); }
+
+  .resume-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .resume-section h2 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .resume-section > p {
+    margin: 0;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .entry {
+    margin-bottom: 1.75rem;
+  }
+
+  .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .entry-title-block {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .entry-company {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+  }
+
+  .entry-role {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .entry-date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .entry h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.75rem;
+  }
+
+  .entry ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .entry ul li {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .entry ul.earlier li {
+    line-height: 1.6;
+  }
+
+  .skills {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .skill-group {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .skill-label {
+    font-weight: 600;
+    color: var(--text-muted);
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  .speaking {
+    margin: 0;
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .speaking li {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  @media print {
+    .resume { max-width: 100%; }
+    .resume-header { border-bottom-color: #000; }
+    .resume-section h2 { color: #000; border-bottom-color: #ccc; }
+    .contact a { color: #444; }
+  }
+</style>
