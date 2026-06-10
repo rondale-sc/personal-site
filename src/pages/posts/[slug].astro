@@ -24,7 +24,7 @@ const [project, interest] = await Promise.all([
 const backHref = project ? `/projects/${project.id}` : interest ? `/interests/${interest.id}` : null;
 const backLabel = project?.data.title ?? interest?.data.title ?? null;
 ---
-<Base title={post.data.title}>
+<Base title={post.data.title} description={post.data.summary} ogImage={`/og/post-${getPostSlug(post)}.png`}>
   <article>
     <header class="post-header">
       {backHref && backLabel && (

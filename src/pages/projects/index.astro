@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 const projects = await getCollection('projects');
 const sorted = projects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title="Projects" description="Things I've built.">
+<Base title="Projects" description="Things I've built." ogImage="/og/projects.png">
   <h1>Projects</h1>
   {sorted.length === 0 ? (
     <p><em>Projects coming soon.</em></p>

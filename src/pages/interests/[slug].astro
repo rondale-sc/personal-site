@@ -18,7 +18,7 @@ const posts = allPosts
   .filter(p => p.data.interest === interest.id && !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title={interest.data.title} description={interest.data.description}>
+<Base title={interest.data.title} description={interest.data.description} ogImage={`/og/interest-${interest.id}.png`}>
   <h1>{interest.data.title}</h1>
   {interest.data.description && <p class="section-desc">{interest.data.description}</p>}
 
