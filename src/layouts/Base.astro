@@ -6,9 +6,20 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonicalUrl?: string;
 }
 
-const { title, description = 'Personal website' } = Astro.props;
+const {
+  title,
+  description = 'Personal website',
+  ogImage = '/og/home.png',
+  ogType = 'website',
+  canonicalUrl = Astro.url.href,
+} = Astro.props;
+
+const ogImageAbsolute = new URL(ogImage, Astro.site).toString();
 ---
 <!doctype html>
 <html lang="en">
@@ -16,8 +27,24 @@ const { title, description = 'Personal website' } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Jonathan Jackson" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
+
     <!-- Apply stored theme before first paint to prevent flash -->
     <script is:inline>
       (function() {
