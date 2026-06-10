@@ -18,7 +18,7 @@ const posts = allPosts
   .filter(p => p.data.project === project.id && !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
-<Base title={project.data.title} description={project.data.summary}>
+<Base title={project.data.title} description={project.data.summary} ogImage={`/og/project-${project.id}.png`}>
   <div class="project-header">
     {project.data.thumbnail && (
       <img src={project.data.thumbnail} alt={project.data.title} class="project-thumb" />
