@@ -278,10 +278,14 @@ export const GET: APIRoute = async ({ props }) => {
 
   let thumbnailDataUri: string | undefined;
   if (ogProps.thumbnail) {
-    const imgBuffer = readFileSync(join(process.cwd(), 'public', ogProps.thumbnail));
-    const ext = ogProps.thumbnail.split('.').pop()?.toLowerCase() ?? 'jpg';
-    const mime = ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg';
-    thumbnailDataUri = `data:${mime};base64,${imgBuffer.toString('base64')}`;
+    try {
+      const imgBuffer = readFileSync(join(process.cwd(), 'public', ogProps.thumbnail));
+      const ext = ogProps.thumbnail.split('.').pop()?.toLowerCase() ?? 'jpg';
+      const mime = ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg';
+      thumbnailDataUri = `data:${mime};base64,${imgBuffer.toString('base64')}`;
+    } catch {
+      console.warn(`[og] thumbnail not found: ${ogProps.thumbnail} — falling back to keyboard icon`);
+    }
   }
 
   const element = buildOgElement(ogProps, thumbnailDataUri);
