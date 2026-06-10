@@ -8,6 +8,3 @@ dist/
 # macOS
 .DS_Store
 .superpowers/
-
-# Local-only working documents (not tracked)
-local/
