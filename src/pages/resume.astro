@@ -7,7 +7,7 @@ import Base from '../layouts/Base.astro';
     <header class="resume-header">
       <h1>Jonathan Jackson</h1>
       <p class="contact">
-        <a href="mailto:boiling-foot2u@icloud.com">boiling-foot2u@icloud.com</a>
+        <a href="mailto:me@jonathanjackson.dev">me@jonathanjackson.dev</a>
         <span>·</span>
         <a href="https://github.com/rondale-sc">github.com/rondale-sc</a>
         <span>·</span>
@@ -17,7 +17,7 @@ import Base from '../layouts/Base.astro';
 
     <section class="resume-section">
       <h2>Summary</h2>
-      <p>15+ years building web infrastructure, observability platforms, and developer tooling at scale. At LinkedIn, shipped the OpenTelemetry instrumentation that runs in production across LinkedIn.com today, led the migration of ~5,000 legacy dashboards off Geneva, and built evaluation infrastructure for an AI-powered alert-triage agent. Comfortable moving across the full stack — TypeScript/Ember/React client, Go Grafana plugins, backend services, Kafka consumers, and agentic tooling — and at driving multi-team migration programs from inception through production.</p>
+      <p>15+ years building web infrastructure, observability platforms, and developer tooling at scale. At LinkedIn, shipped the OpenTelemetry instrumentation that runs in production across LinkedIn.com today, drove the modernization of legacy observability systems (spanning site performance tracking and dashboarding solutions, some over 15 years old) through a combination of pipeline modernization and full platform migration, and piloted the initial evaluation framework for LinkedIn's AI-powered alert-triage platform. Comfortable moving across the full stack (TypeScript/Ember/React client, Go Grafana plugins, backend services, Kafka consumers, and agentic tooling) and at driving multi-team migration programs from inception through production.</p>
     </section>
 
     <section class="resume-section">
@@ -32,14 +32,16 @@ import Base from '../layouts/Base.astro';
           <span class="entry-date">May 2022 – Present</span>
         </div>
         <ul>
-          <li>Drove LinkedIn's web client OpenTelemetry SDK from zero to 100% production traffic. Built core SDK primitives (span error recording, child span linking, context propagation through headers and proto), a runtime span-validation framework that catches schema violations before they reach production, and full instrumentation coverage for INP web vitals, page load time, and exception telemetry. This instrumentation runs in every page load on LinkedIn.com today.</li>
-          <li>Led the Grafana OTel datasource plugin integration and Geneva parity program, enabling ~5,000 legacy RRD/Geneva dashboards to migrate to the OTel metrics stack. Shipped the query capabilities that closed the parity gap — template-variable support, dimension filters, timeshift, sub-minute intervals, summarize, and missing-data behavior — and ran migration analysis, FAQs, and partner-team office hours across LinkedIn.</li>
-          <li>Built evaluation infrastructure for Observe Agent, LinkedIn's AI-powered alert-triage platform. Curated the golden dataset for P0 incidents, implemented LLM-as-judge and trajectory evaluators, and built RRD→KQL migration tooling with accompanying Claude Code skills — deterministic, independently testable CLIs that re-derive legacy metric provenance from migration PRs.</li>
-          <li>Delivered the curated Observe 2.0 alert-triage experience: firing-nodes overview and metrics tabs, correlation insights, event overlays, consolidation controls, dark mode, and LiX feature-flagging integration.</li>
-          <li>Bootstrapped the Playwright test harness, authored a Claude command to automate Cypress→Playwright migration across the codebase, and ran a sustained flaky-test reliability program — spec splitting, partition tuning, a single-spec repeat workflow, and a CI flakiness reporter. Made Playwright required to merge.</li>
-          <li>Stood up the observe-dashboards-ingraphs application and its offline analysis pipeline, including a Kafka consumer for CI events and observe-api dashboard lifecycle endpoints. Designed Dashboard Lifecycle Management and ownership-claim flows for Dashboards-as-Code via the crews asset-provider pathway.</li>
-          <li>Owned Classic Harrier's sunset roadmap and One-Harrier UI: TTMD/TTFD baselines in RCA hero charts, SLO tuning, and sustained on-call and incident response. Prior to the OTel migration, kept LinkedIn's open-source <a href="https://tracerbench.com">TracerBench</a> web benchmarking tool operational as a two-person team during LinkedIn's shift-left performance initiative.</li>
-          <li>Defined top-level UI availability and performance metrics for observe-api, tuned signalpacks to filter high-risk queries, onboarded to Freshness Guardian, and drove the Squid→Kraken security migration for observe-dashboards.</li>
+          <li>Drove LinkedIn's web client OpenTelemetry SDK from zero to 100% production traffic. Built core SDK primitives, a runtime span-validation framework that catches schema violations before they reach production, and full instrumentation coverage for INP web vitals, page load time, and exception telemetry. This instrumentation runs in every page load on LinkedIn.com today.</li>
+          <li>Built a Grafana datasource plugin and migrated ~5,000 production dashboards off a third-party solution to the in-house alternative, improving support for those use cases without disrupting the teams depending on them.</li>
+          <li>Contributed to early-stage evaluation work for Observe Agent, LinkedIn's AI-powered alert-triage platform, including P0 incident dataset curation and initial LLM evaluation methodology.</li>
+          <li>Improved the curated user experience and supporting infrastructure of LinkedIn's Observability platform, delivering a more capable and polished alert-triage experience for on-call engineers.</li>
+          <li>Drove a targeted effort to modernize and harden the test infrastructure for LinkedIn's Observability tooling, migrating to Playwright and running a sustained reliability program to ensure stability as AI-assisted development accelerated the team's delivery pace.</li>
+          <li>Built conversion tooling for a large-scale, ongoing migration of 80,000+ production dashboards from a legacy metric system to its modern MDM-based equivalent (some dashboards over a decade old and still actively used), focusing on the read path and producing metric-level equivalence between old and new systems.</li>
+          <li>Drove the end-of-life of a 15-year-old site performance monitoring tool, establishing feature parity in its modern replacement and orchestrating the transition so dependent teams experienced no operational disruption.
+
+Maintained LinkedIn's open-source web benchmarking tool, <a href="https://tracerbench.com">TracerBench</a>, as part of a shift-left performance initiative, delivering robust benchmarking across multiple LinkedIn web products at scale, leveraging deep Ember.js expertise to instrument and validate performance at the framework level.</li>
+          <li>Worked to define and establish performance and availability metrics across LinkedIn's Observability tooling, creating clearer visibility into the health of the platform itself.</li>
         </ul>
       </div>
 
@@ -52,7 +54,7 @@ import Base from '../layouts/Base.astro';
           <span class="entry-date">Feb 2019 – Apr 2022</span>
         </div>
         <ul>
-          <li>Built and maintained Addepar's report editor, the primary tool financial advisors use to generate client-facing portfolio reports from Addepar's financial graph — a platform tracking $1T+ in assets across thousands of advisory firms. Delivered reporting features that translated complex multi-asset portfolio data into structured, client-ready outputs.</li>
+          <li>Built and maintained Addepar's report editor, the primary tool financial advisors use to generate client-facing portfolio reports from Addepar's financial graph (a platform tracking $1T+ in assets across thousands of advisory firms). Delivered reporting features that translated complex multi-asset portfolio data into structured, client-ready outputs.</li>
           <li>Extended the report editor's query and rendering capabilities to handle increasingly complex financial instruments and custom firm configurations, working closely with the platform team on the underlying graph API.</li>
         </ul>
       </div>
@@ -60,9 +62,9 @@ import Base from '../layouts/Base.astro';
       <div class="entry">
         <h3>Selected Earlier Experience</h3>
         <ul class="earlier">
-          <li><strong>201 Created — Senior Developer</strong> (Jan 2017 – Feb 2019): Senior developer at one of the first consultancies to adopt Ember.js. Built client applications across fintech, media, and e-commerce, with deep focus on Ember component architecture and front-end performance.</li>
-          <li><strong>Hashrocket — Senior Developer</strong> (May 2013 – Dec 2016): Senior developer and consultant at a leading Rails consultancy. Architected applications and trained junior developers across clients in healthcare, banking, fashion, hospitality, and sports. Co-hosted Ember Weekend podcast; delivered Ember.js training to 40+ developers at Modern Web.</li>
-          <li><strong>Pro Medical, Inc. — Software Engineer</strong> (2009 – 2013): First engineering role after graduation. Built internal web tooling and managed IT for a HIPAA-compliant medical billing company.</li>
+          <li><strong>201 Created, Senior Developer</strong> (Jan 2017 – Feb 2019): Senior developer at one of the first consultancies to adopt Ember.js. Built client applications across fintech, media, and e-commerce, with deep focus on Ember component architecture and front-end performance.</li>
+          <li><strong>Hashrocket, Senior Developer</strong> (May 2013 – Dec 2016): Senior developer and consultant at a leading Rails consultancy. Architected applications and trained junior developers across clients in healthcare, banking, fashion, hospitality, and sports. Co-hosted Ember Weekend podcast; delivered Ember.js training to 40+ developers at Modern Web.</li>
+          <li><strong>Pro Medical, Inc., Software Engineer</strong> (2009 – 2013): First engineering role after graduation. Built internal web tooling and managed IT for a HIPAA-compliant medical billing company.</li>
         </ul>
       </div>
     </section>
@@ -105,11 +107,11 @@ import Base from '../layouts/Base.astro';
     <section class="resume-section">
       <h2>Speaking &amp; Community</h2>
       <ul class="speaking">
-        <li><strong>RailsConf 2015</strong> — <a href="https://www.youtube.com/watch?v=NnquHUlh0Pk">"Rails and EmberCLI: an integration love story"</a></li>
-        <li><strong>EmberFest EU 2018</strong> — speaker</li>
-        <li><strong>Ember NYC</strong> — speaker</li>
-        <li><strong>EmberJAX</strong> — founder and multi-year organizer of the Jacksonville, FL Ember.js meetup</li>
-        <li><strong>Ember Weekend</strong> — co-host of a long-running podcast covering Ember.js news, interviews, and community</li>
+        <li><strong>RailsConf 2015</strong>, "Rails and EmberCLI: an integration love story"</li>
+        <li><strong>EmberFest EU 2018</strong>, speaker</li>
+        <li><strong>Ember NYC</strong>, speaker</li>
+        <li><strong>EmberJAX</strong>, founder and multi-year organizer of the Jacksonville, FL Ember.js meetup</li>
+        <li><strong>Ember Weekend</strong>, co-host of a long-running podcast covering Ember.js news, interviews, and community (<a href="https://youtube.com/@emberweekend">recordings</a>)</li>
       </ul>
     </section>
 
